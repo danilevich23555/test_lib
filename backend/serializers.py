@@ -6,7 +6,7 @@ from backend.models import User, Book
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'password', 'position',)
+        fields = ('first_name', 'last_name', 'email', 'password')
         read_only_fields = ('id',)
 
 

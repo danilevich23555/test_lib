@@ -56,12 +56,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     surname_name = models.CharField(_('surname'), max_length=30, blank=True)
     date_joined = models.DateTimeField(_('registered'), auto_now_add=True)
     email = models.EmailField(_('email address'), unique=True)
-    company = models.CharField(verbose_name='Компания', max_length=40, blank=True)
-    position = models.CharField(verbose_name='Должность', max_length=40, blank=True)
-    is_staff = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
     username_validator = UnicodeUsernameValidator()
     username = models.CharField(
         _('username'),

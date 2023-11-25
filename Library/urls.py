@@ -24,7 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/bookviewset/<int:pk>',
          BookViewSet.as_view({'get': 'retrieve', 'delete': 'destroy', 'put': 'update'})),
-    path('user/booksviewset',
+    path('user/bookviewset',
          BookViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('user/register', RegisterAccount.as_view(), name='user-register'),
 ]
