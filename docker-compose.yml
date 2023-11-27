@@ -1,23 +1,43 @@
-version: "3.1"
-
-networks:
-  net1:
+version: "3"
 
 services:
-  mysql_db:
-    image: mysql:8
-    restart: always
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: stage
-      MYSQL_USER: example
-      MYSQL_PASSWORD: secret2
-
 
   redis:
     image: redis
     ports:
       - "6379:6379"
+
+  db:
+    container_name: db
+    image: mysql:8
+    ports:
+      - "3307:3306"
+    command: --default-authentication-plugin=mysql_native_password
+
+    environment:
+      - MYSQL_DATABASE=django_example
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=123456
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_ROOT_HOST=db
+    volumes:
+      - "./db:/var/lib/mysql"
+  web:
+    container_name: app
+    build: .
+    environment:
+      - MYSQL_DATABASE=django_example
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=123456
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_ROOT_HOST=%
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - /tmp/app/mysqld:/run/mysqld
+    depends_on:
+      - db
+      - redis
+
 
