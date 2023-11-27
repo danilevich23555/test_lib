@@ -6,38 +6,29 @@ services:
     image: redis
     ports:
       - "6379:6379"
-
   db:
-    container_name: db
     image: mysql:8
     ports:
-      - "3307:3306"
-    command: --default-authentication-plugin=mysql_native_password
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE='mydatabase'
+      - MYSQL_USER='root_'
+      - MYSQL_PASSWORD='some_password'
+      - MYSQL_ROOT_PASSWORD='some_password'
+    volumes:
+      - /tmp/app/mysqld:/var/run/mysqld
+      - ./db:/var/lib/mysql
+#  web:
+#    build: .
+#    command: python manage.py runserver 0.0.0.0:8000
+#    ports:
+#      - "8000:8000"
+#    volumes:
+#      - .:/app
+#      - /tmp/app/mysqld:/run/mysqld
+#    depends_on:
+#      - db
+#      - redis
 
-    environment:
-      - MYSQL_DATABASE=django_example
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=123456
-      - MYSQL_ROOT_PASSWORD=123456
-      - MYSQL_ROOT_HOST=db
-    volumes:
-      - "./db:/var/lib/mysql"
-  web:
-    container_name: app
-    build: .
-    environment:
-      - MYSQL_DATABASE=django_example
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=123456
-      - MYSQL_ROOT_PASSWORD=123456
-      - MYSQL_ROOT_HOST=%
-    ports:
-      - "8000:8000"
-    volumes:
-      - .:/app
-      - /tmp/app/mysqld:/run/mysqld
-    depends_on:
-      - db
-      - redis
 
 
