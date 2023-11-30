@@ -1,34 +1,30 @@
-version: "3"
+version: '3'
 
 services:
-
-  redis:
-    image: redis
-    ports:
-      - "6379:6379"
   db:
-    image: mysql:8
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=mariadb
+      - MYSQL_DATABASE=mariadb
+      - MYSQL_USER=mariadb
+      - MYSQL_PASSWORD=mariadb
+    volumes:
+      - mariadb_data:/var/lib/mysql
     ports:
       - "3306:3306"
-    environment:
-      - MYSQL_DATABASE='mydatabase'
-      - MYSQL_USER='root_'
-      - MYSQL_PASSWORD='some_password'
-      - MYSQL_ROOT_PASSWORD='some_password'
+    security_opt:
+      - label=type:container_runtime_t
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - /tmp/app/mysqld:/var/run/mysqld
-      - ./db:/var/lib/mysql
-#  web:
-#    build: .
-#    command: python manage.py runserver 0.0.0.0:8000
-#    ports:
-#      - "8000:8000"
-#    volumes:
-#      - .:/app
-#      - /tmp/app/mysqld:/run/mysqld
-#    depends_on:
-#      - db
-#      - redis
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    security_opt:
+      - label=type:container_runtime_t
 
-
-
+volumes:
+  mariadb_data:
