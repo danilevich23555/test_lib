@@ -1,24 +1,38 @@
-version: "3.1"
-
-networks:
-  net1:
+version: '3'
 
 services:
-  mysql_db:
-    image: mysql:8
-    restart: always
+  db:
+    image: mariadb
+    container_name: db
+    expose:
+      - 3306
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: stage
-      MYSQL_USER: example
-      MYSQL_PASSWORD: secret2
-
-
+      MYSQL_DATABASE: 'django_backend'
+      MYSQL_PORT: '3306'
+      MYSQL_ROOT_PASSWORD: 'password'
   redis:
+    container_name: redis
     image: redis
     ports:
       - "6379:6379"
+  web:
+    build: .
+    restart: always
+    container_name: web
+    expose:
+      - 8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    links:
+      - db
+      - redis
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000 && python -m celery -A Library worker"
 
 

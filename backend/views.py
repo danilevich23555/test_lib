@@ -27,7 +27,7 @@ class RegisterAccount(APIView):
     def post(self, request):
 
         # проверяем обязательные аргументы
-        if {'first_name', 'last_name', 'email', 'password', 'position'}.issubset(request.data):
+        if {'first_name', 'last_name', 'email', 'password'}.issubset(request.data):
             errors = {}
 
             # проверяем пароль на сложность
@@ -53,7 +53,7 @@ class RegisterAccount(APIView):
                                                                   'подтвердите свой адрес!', request.data['email'])
                     return JsonResponse({'Status': True,
                                          'data': 'Пользователь с данными '
-                                                 + f"{user.first_name, user.last_name, user.email}"
+                                                 + f"{user.first_name, user.last_name, user.email, task.id}"
                                                  + ' успешно зарегистрирован!'})
                 # else:
                 #     return JsonResponse({'Status': False, 'Errors': user_serializer.errors})
