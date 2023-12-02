@@ -79,7 +79,7 @@ DATABASES = {
         'NAME': 'django_backend',
         'USER': 'root',
         'PASSWORD': 'password',
-        'HOST': '0.0.0.0',
+        'HOST': 'db',
         'PORT': '3306',
         'OPTIONS': {
             'charset': 'utf8mb4',
@@ -137,9 +137,10 @@ EMAIL_HOST_USER = 'hwcelery@yandex.ru'
 EMAIL_HOST_PASSWORD = 'gttgfholcimzioky'
 EMAIL_PORT = '465'
 EMAIL_USE_SSL = True
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_BROKER_URL = 'redis://redis:6379/0'
 CELERY_BROKER_TRANSPORT = 'redis'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/1'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/1'
+broker_connection_retry_on_startup = True
 
 SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = "none"
