@@ -3,28 +3,35 @@ version: '3'
 services:
   db:
     image: mariadb
-    environment:
-      - MYSQL_ROOT_PASSWORD=mariadb
-      - MYSQL_DATABASE=mariadb
-      - MYSQL_USER=mariadb
-      - MYSQL_PASSWORD=mariadb
-    volumes:
-      - mariadb_data:/var/lib/mysql
+    container_name: db
+    expose:
+      - 3306
     ports:
       - "3306:3306"
-    security_opt:
-      - label=type:container_runtime_t
-  web:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/code
+    environment:
+      MYSQL_DATABASE: 'django_backend'
+      MYSQL_PORT: '3306'
+      MYSQL_ROOT_PASSWORD: 'password'
+  redis:
+    container_name: redis
+    image: redis
     ports:
-      - "8000:8000"
-    depends_on:
-      - db
-    security_opt:
-      - label=type:container_runtime_t
+      - "6379:6379"
+#  web:
+#    build: .
+#    restart: always
+#    container_name: web
+#    expose:
+#      - 8000
+#    volumes:
+#      - .:/app
+#    ports:
+#      - "8000:8000"
+#    depends_on:
+#      - db
+#      - redis
+#    links:
+#      - db
+#      - redis
+#    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000 && python -m celery -A Library worker"
 
-volumes:
-  mariadb_data:

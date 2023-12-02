@@ -48,24 +48,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     """
     Стандартная модель пользователей
     """
-    REQUIRED_FIELDS = []
-    objects = UserManager()
     USERNAME_FIELD = 'email'
     first_name = models.CharField(_('name'), max_length=30, blank=True)
     last_name = models.CharField(_('surname'), max_length=30, blank=True)
     surname_name = models.CharField(_('surname'), max_length=30, blank=True)
     date_joined = models.DateTimeField(_('registered'), auto_now_add=True)
     email = models.EmailField(_('email address'), unique=True)
-    username_validator = UnicodeUsernameValidator()
-    username = models.CharField(
-        _('username'),
-        max_length=150,
-        help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
-        validators=[username_validator],
-        error_messages={
-            'unique': _("A user with that username already exists."),
-        },
-    )
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -82,7 +70,7 @@ class Book(models.Model):
     #                           on_delete=models.CASCADE)
 
     name_book = models.CharField(max_length=50, verbose_name='Имя книги')
-    author = models.CharField(max_length=100, verbose_name='Автор')
+    author = models.CharField(max_length=99, verbose_name='Автор')
     publish = models.CharField(max_length=15, verbose_name='Дата создания', blank=True)
     ISBN = models.CharField(max_length=15, verbose_name='ISBN', blank=True)
 

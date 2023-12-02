@@ -6,7 +6,7 @@ from celery.result import AsyncResult
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Library.settings')
 
-app = Celery("Library", )
+app = Celery("Library")
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.

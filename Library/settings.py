@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-5*v&dg@84b9*6*dcq6)fmyfmh4eor4nsniq4hnz3*_87p+&eqb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -76,14 +76,15 @@ WSGI_APPLICATION = 'Library.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mariadb',
-        'USER': 'mariadb',
-        'PASSWORD': 'mariadb',
-        'HOST': '127.0.0.1',
-        'PORT': 3306,
+        'NAME': 'django_backend',
+        'USER': 'root',
+        'PASSWORD': 'password',
+        'HOST': '0.0.0.0',
+        'PORT': '3306',
         'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES', innodb_strict_mode=1",
+            'charset': 'utf8mb4',
         },
+
     }
 }
 
@@ -139,3 +140,9 @@ EMAIL_USE_SSL = True
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
 CELERY_BROKER_TRANSPORT = 'redis'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/1'
+
+SITE_ID = 1
+ACCOUNT_EMAIL_VERIFICATION = "none"
+LOGIN_REDIRECT_URL = "home"
+ACCOUNT_LOGOUT_ON_GET = True
+
